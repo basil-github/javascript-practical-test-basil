@@ -4,7 +4,7 @@ import Button from "../Button";
 import SlotForm from "../Form";
 export default function MyModal() {
   let [isOpen, setIsOpen] = useState(false);
-  const activeCls = "ring-2 ring-red-400 bg-red-500";
+  const activeCls = "ring-1 ring-red-400 bg-red-500";
 
   function closeModal() {
     setIsOpen(false);
