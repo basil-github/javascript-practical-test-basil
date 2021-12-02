@@ -1,0 +1,74 @@
+[
+    {
+        "id": 1,
+        "time": "9 AM - 10 AM",
+        "person": {
+            "f_name": "",
+            "l_name": "",
+            "m_number": ""
+        }
+    },
+    {
+        "id": 2,
+        "time": "10 AM - 11 AM",
+        "person": {
+            "f_name": "",
+            "l_name": "",
+            "m_number": ""
+        }
+    },
+    {
+        "id": 3,
+        "time": "11 AM - 12 AM",
+        "person": {
+            "f_name": "Basil",
+            "l_name": "Babu",
+            "m_number": "854547579466"
+        }
+    },
+    {
+        "id": 4,
+        "time": "12 AM - 1 PM",
+        "person": {
+            "f_name": "",
+            "l_name": "",
+            "m_number": ""
+        }
+    },
+    {
+        "id": 5,
+        "time": "1 PM - 2 PM",
+        "person": {
+            "f_name": "",
+            "l_name": "",
+            "m_number": ""
+        }
+    },
+    {
+        "id": 6,
+        "time": "2 PM - 3 PM",
+        "person": {
+            "f_name": "",
+            "l_name": "",
+            "m_number": ""
+        }
+    },
+    {
+        "id": 7,
+        "time": "3 PM - 4 PM",
+        "person": {
+            "f_name": "",
+            "l_name": "",
+            "m_number": ""
+        }
+    },
+    {
+        "id": 8,
+        "time": "4 PM - 5 PM",
+        "person": {
+            "f_name": "",
+            "l_name": "",
+            "m_number": ""
+        }
+    }
+]

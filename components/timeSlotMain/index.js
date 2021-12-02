@@ -1,29 +1,38 @@
 import { Dialog, Transition } from "@headlessui/react";
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import Button from "../Button";
 import SlotForm from "../Form";
+import { useSelector, useDispatch } from "react-redux";
+
 export default function MyModal() {
+  const dispatch = useDispatch();
+  const slots = useSelector((state) => state.slot);
   let [isOpen, setIsOpen] = useState(false);
   const activeCls = "ring-1 ring-red-400 bg-red-500";
-
+  let [currentModel, setCurrent] = useState();
   function closeModal() {
     setIsOpen(false);
   }
-
-  function openModal() {
+  function openModal(i) {
     setIsOpen(true);
+    setCurrent(i);
   }
+
+  const sortedSlots = slots.slice().sort((a, b) => {
+    return parseInt(a.id) - parseInt(b.id);
+  });
   return (
     <>
       <div className="grid gap-4 md:grid-cols-4 grid-cols-3">
-        <Button openModal={openModal} activeCls={activeCls} />
-        <Button openModal={openModal} activeCls={""} />
-        <Button openModal={openModal} activeCls={""} />
-        <Button openModal={openModal} activeCls={""} />
-        <Button openModal={openModal} activeCls={""} />
-        <Button openModal={openModal} activeCls={""} />
+        {sortedSlots.map((slot, i) => (
+          <Button
+            key={slot.id}
+            openModal={() => openModal(slot.id)}
+            activeCls={slot.person.f_name.length > 0 && activeCls}
+            slot={slot}
+          />
+        ))}
       </div>
-
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog
           as="div"
@@ -64,10 +73,15 @@ export default function MyModal() {
                 >
                   Slot Details
                 </Dialog.Title>
-
-                <div className="mt-2">
-                  <SlotForm />
-                </div>
+                {slots.map((slot, i) => {
+                  if (slot.id === currentModel) {
+                    return (
+                      <div className="mt-2" key={i}>
+                        <SlotForm closeModal={closeModal} slot={slot} />
+                      </div>
+                    );
+                  }
+                })}
               </div>
             </Transition.Child>
           </div>

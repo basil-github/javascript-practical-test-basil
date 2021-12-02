@@ -1,16 +1,53 @@
 import React from "react";
 import { useForm } from "react-hook-form";
+import { useSelector, useDispatch } from "react-redux";
+import { addTimeSlot, deleteTimeSlot } from "../../features/slots/slotSlice";
+function Index({ closeModal, slot }) {
+  const dispatch = useDispatch();
+  const slots = useSelector((state) => state.slot);
+  let newSlots = [];
+  let filtredSlots = () => {
+    let data = slots.filter((slt) => {
+      if (slot.id != slt.id) {
+        newSlots.push(slt);
+      }
+    });
+    return data;
+  };
 
-function Index() {
+  const onSubmit = async (data, e) => {
+    await filtredSlots();
+    let newData = {
+      id: slot.id,
+      time: slot.time,
+      person: data,
+    };
+    newSlots.push(newData);
+    await dispatch(addTimeSlot(newSlots));
+    closeModal();
+  };
+  const delSlot = async (data, e) => {
+    await filtredSlots();
+    let newData = {
+      id: slot.id,
+      time: slot.time,
+      person: {
+        f_name: "",
+        l_name: "",
+        m_number: "",
+      },
+    };
+    newSlots.push(newData);
+    await dispatch(deleteTimeSlot(newSlots));
+    closeModal();
+  };
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
-  const onSubmit = (data) => {
-    console.log(data);
-  };
-  console.log(errors);
+  } = useForm({
+    defaultValues: slot.person,
+  });
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col">
@@ -49,12 +86,22 @@ function Index() {
           <input
             className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
             type="submit"
-            value="Save"
+            value={slot?.person?.f_name?.length > 0 ? "Edit" : "Save"}
           />
+          {slot?.person?.f_name?.length > 0 && (
+            <button
+              type="button"
+              className="ml-4  inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-red-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+              onClick={() => delSlot()}
+            >
+              Delete
+            </button>
+          )}
+
           <button
             type="button"
-            className="ml-4  inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-green-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
-            // onClick={closeModal}
+            className="ml-4  inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-green-300 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+            onClick={closeModal}
           >
             Cancel
           </button>
