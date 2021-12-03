@@ -1,6 +1,18 @@
 import Head from "next/head";
 import TimeSlotMain from "../components/timeSlotMain";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchSlotsAPI } from "../features/slots/slotAPI";
+import { getTimeSlots } from "../features/slots/slotSlice";
+import { useEffect, useState } from "react";
 export default function Home() {
+  const dispatch = useDispatch();
+  const stateSlots = useSelector((state) => state.slot);
+  useEffect(() => {
+    let slots = fetchSlotsAPI().then(function (result) {
+      dispatch(getTimeSlots(result));
+    });
+  }, []);
+
   return (
     <>
       <div>
@@ -10,9 +22,10 @@ export default function Home() {
           <link rel="icon" href="/favicon.ico" />
         </Head>
       </div>
+
       <section className="h-screen bg-gradient-to-r from-green-400 to-blue-500">
         <div className="container mx-auto px-4 h-full flex justify-center content-center items-center">
-          <TimeSlotMain />
+          {stateSlots && <TimeSlotMain />}
         </div>
       </section>
     </>

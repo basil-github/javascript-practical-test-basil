@@ -1,14 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
 import data from "../../data.json";
-
+import { fetchSlotsAPI } from "./slotAPI";
 const initialState = data;
 
 export const slotSlice = createSlice({
   name: "slot",
   initialState,
   reducers: {
-    getTimeSlots: (state) => {
-      state.value = state;
+    getTimeSlots: (state, { payload }) => {
+      return (state = payload);
     },
     addTimeSlot: (state, { payload }) => {
       return (state = payload);

@@ -23,7 +23,7 @@ export default function MyModal() {
   });
   return (
     <>
-      <div className="grid gap-4 md:grid-cols-4 grid-cols-3">
+      <div className="grid gap-4 md:grid-cols-4 grid-cols-2">
         {sortedSlots.map((slot, i) => (
           <Button
             key={slot.id}

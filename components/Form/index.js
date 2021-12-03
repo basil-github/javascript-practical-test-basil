@@ -1,9 +1,16 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { useSelector, useDispatch } from "react-redux";
-import { addTimeSlot, deleteTimeSlot } from "../../features/slots/slotSlice";
+import { putSlotsAPI } from "../../features/slots/slotAPI";
+import {
+  getTimeSlots,
+  addTimeSlot,
+  deleteTimeSlot,
+} from "../../features/slots/slotSlice";
 function Index({ closeModal, slot }) {
   const dispatch = useDispatch();
+  dispatch(getTimeSlots());
+
   const slots = useSelector((state) => state.slot);
   let newSlots = [];
   let filtredSlots = () => {
@@ -24,6 +31,10 @@ function Index({ closeModal, slot }) {
     };
     newSlots.push(newData);
     await dispatch(addTimeSlot(newSlots));
+    let putData = {
+      slots: newSlots,
+    };
+    await putSlotsAPI(putData);
     closeModal();
   };
   const delSlot = async (data, e) => {
@@ -39,6 +50,10 @@ function Index({ closeModal, slot }) {
     };
     newSlots.push(newData);
     await dispatch(deleteTimeSlot(newSlots));
+    let putData = {
+      slots: newSlots,
+    };
+    await putSlotsAPI(putData);
     closeModal();
   };
   const {
