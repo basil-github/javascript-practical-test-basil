@@ -34,8 +34,8 @@ function Index({ closeModal, slot }) {
     let putData = {
       slots: newSlots,
     };
-    await putSlotsAPI(putData);
     closeModal();
+    await putSlotsAPI(putData);
   };
   const delSlot = async (data, e) => {
     await filtredSlots();
@@ -53,8 +53,8 @@ function Index({ closeModal, slot }) {
     let putData = {
       slots: newSlots,
     };
-    await putSlotsAPI(putData);
     closeModal();
+    await putSlotsAPI(putData);
   };
   const {
     register,
