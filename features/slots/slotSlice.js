@@ -1,7 +1,20 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import data from "../../data.json";
 import { fetchSlotsAPI } from "./slotAPI";
-const initialState = data;
+const initialState = {
+  entities: [],
+  loading: false,
+};
+
+export const getSlotsThunk = createAsyncThunk(
+  "slots/getSlotsThunk",
+  async (thunkAPI) => {
+    const res = await fetch("https://vrproperty.herokuapp.com/time-slots").then(
+      (data) => data.json()
+    );
+    return res;
+  }
+);
 
 export const slotSlice = createSlice({
   name: "slot",
@@ -11,10 +24,24 @@ export const slotSlice = createSlice({
       return (state = payload);
     },
     addTimeSlot: (state, { payload }) => {
-      return (state = payload);
+      state.loading = false;
+      state.entities = payload;
     },
     deleteTimeSlot: (state, { payload }) => {
-      return (state = payload);
+      state.loading = false;
+      state.entities = payload;
+    },
+  },
+  extraReducers: {
+    [getSlotsThunk.pending]: (state) => {
+      state.loading = true;
+    },
+    [getSlotsThunk.fulfilled]: (state, { payload }) => {
+      state.loading = false;
+      state.entities = payload;
+    },
+    [getSlotsThunk.rejected]: (state) => {
+      state.loading = false;
     },
   },
 });

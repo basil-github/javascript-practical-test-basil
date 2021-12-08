@@ -2,17 +2,16 @@ import Head from "next/head";
 import TimeSlotMain from "../components/timeSlotMain";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchSlotsAPI } from "../features/slots/slotAPI";
-import { getTimeSlots } from "../features/slots/slotSlice";
+import { getTimeSlots, getSlotsThunk } from "../features/slots/slotSlice";
 import { useEffect, useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+
 export default function Home() {
   const dispatch = useDispatch();
   const stateSlots = useSelector((state) => state.slot);
   useEffect(() => {
-    let slots = fetchSlotsAPI().then(function (result) {
-      dispatch(getTimeSlots(result));
-    });
+    let slots = dispatch(getSlotsThunk());
   }, []);
-
   return (
     <>
       <div>
@@ -23,9 +22,11 @@ export default function Home() {
         </Head>
       </div>
 
-      <section className="h-screen bg-gradient-to-r from-green-400 to-blue-500">
+      <section className="h-screen bg-gradient-to-r from-green-400 to-blue-500 ">
         <div className="container mx-auto px-4 h-full flex justify-center content-center items-center">
-          {stateSlots && <TimeSlotMain />}
+          {stateSlots?.entities?.slots && <TimeSlotMain slots={stateSlots} />}
+
+          {stateSlots.loading && <div className="loading"></div>}
         </div>
       </section>
     </>

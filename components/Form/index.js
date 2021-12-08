@@ -6,15 +6,14 @@ import {
   getTimeSlots,
   addTimeSlot,
   deleteTimeSlot,
+  getSlotsThunk,
 } from "../../features/slots/slotSlice";
 function Index({ closeModal, slot }) {
   const dispatch = useDispatch();
-  dispatch(getTimeSlots());
-
   const slots = useSelector((state) => state.slot);
   let newSlots = [];
   let filtredSlots = () => {
-    let data = slots.filter((slt) => {
+    let data = slots?.entities?.slots.filter((slt) => {
       if (slot.id != slt.id) {
         newSlots.push(slt);
       }
@@ -30,12 +29,13 @@ function Index({ closeModal, slot }) {
       person: data,
     };
     newSlots.push(newData);
-    await dispatch(addTimeSlot(newSlots));
+
     let putData = {
       slots: newSlots,
     };
     closeModal();
     await putSlotsAPI(putData);
+    await dispatch(getSlotsThunk());
   };
   const delSlot = async (data, e) => {
     await filtredSlots();
@@ -49,12 +49,12 @@ function Index({ closeModal, slot }) {
       },
     };
     newSlots.push(newData);
-    await dispatch(deleteTimeSlot(newSlots));
     let putData = {
       slots: newSlots,
     };
     closeModal();
     await putSlotsAPI(putData);
+    await dispatch(getSlotsThunk());
   };
   const {
     register,

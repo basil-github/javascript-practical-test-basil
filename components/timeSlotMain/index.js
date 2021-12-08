@@ -4,9 +4,9 @@ import Button from "../Button";
 import SlotForm from "../Form";
 import { useSelector, useDispatch } from "react-redux";
 
-export default function MyModal() {
+export default function MyModal({ slots }) {
+  console.log(slots);
   const dispatch = useDispatch();
-  const slots = useSelector((state) => state.slot);
   let [isOpen, setIsOpen] = useState(false);
   const activeCls = "ring-1 ring-red-400 bg-red-500";
   let [currentModel, setCurrent] = useState();
@@ -17,14 +17,13 @@ export default function MyModal() {
     setIsOpen(true);
     setCurrent(i);
   }
-
-  const sortedSlots = slots.slice().sort((a, b) => {
+  const sortedSlots = slots?.entities?.slots.slice().sort((a, b) => {
     return parseInt(a.id) - parseInt(b.id);
   });
   return (
     <>
       <div className="grid gap-4 md:grid-cols-4 grid-cols-2">
-        {sortedSlots.map((slot, i) => (
+        {sortedSlots?.map((slot, i) => (
           <Button
             key={slot.id}
             openModal={() => openModal(slot.id)}
@@ -73,7 +72,7 @@ export default function MyModal() {
                 >
                   Slot Details
                 </Dialog.Title>
-                {slots.map((slot, i) => {
+                {slots?.entities?.slots.map((slot, i) => {
                   if (slot.id === currentModel) {
                     return (
                       <div className="mt-2" key={i}>
